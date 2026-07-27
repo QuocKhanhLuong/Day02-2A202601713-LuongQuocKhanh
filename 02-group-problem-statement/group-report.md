@@ -16,6 +16,17 @@
 | 2 | Lương Quốc Khánh | 2A202601713 | Problem owner, baseline, metric và kế hoạch validation |
 | 3 | Hoàng Đức Anh | 2A202601223 | Workflow trước/sau và đánh giá khả thi kỹ thuật |
 | 4 | Nguyễn Thu Huyền | 2A202601027 | Research phương án thay thế, risk và human review |
+| 5 | Lý Thành Đạt | 2A202601469 | Điều phối, chuẩn hóa Problem Statement và boundary |
+| 6 | Nguyễn Tiến Dũng | 2A202601707 | Problem owner, baseline, metric và kế hoạch validation |
+| 7 | Lý Minh Hải | 2A202601503 | Workflow trước/sau và đánh giá khả thi kỹ thuật |
+| 8 | Bùi Văn Khởi | 2A202601723 | Research phương án thay thế, risk và human review |
+| 9 | Nguyễn Hoàng Khôi | 2A202601383 | Điều phối, chuẩn hóa Problem Statement và boundary |
+| 10 | Lê Văn Huy | 2A202601235 | Problem owner, baseline, metric và kế hoạch validation |
+| 11 | Nguyễn Minh Hoàng | 2A202601651 | Workflow trước/sau và đánh giá khả thi kỹ thuật |
+| 12 | Hoàng Quang Minh | 2A202601301 | Research phương án thay thế, risk và human review |
+| 13 | Nguyễn Công Hùng | 2A202601071 | Điều phối, chuẩn hóa Problem Statement và boundary |
+| 14 | Ngô Hữu Nghĩa | 2A202601924 | Problem owner, baseline, metric và kế hoạch validation |
+| 15 | Nguyễn Hữu Nhật Minh | 2A202601551 | Workflow trước/sau và đánh giá khả thi kỹ thuật |
 
 ---
 
@@ -25,7 +36,7 @@
 
 ### 1.1. Đầu vào từ bốn bài cá nhân
 
-Mỗi thành viên đưa ba Problem Cards vào vòng hội tụ, tổng cộng 12 candidates.
+Mỗi thành viên trong nhóm phân tích đưa ba Problem Cards vào vòng hội tụ, tổng cộng 12 candidates.
 
 | Thành viên | Candidate 1 | Candidate 2 | Candidate 3 |
 |---|---|---|---|
@@ -138,7 +149,7 @@ source link và confidence; người dùng vẫn phải xác nhận trước m�
 
 ### Đánh giá mức độ research
 
-- **Đủ yêu cầu lab:** Có hơn 3 existing solutions/patterns, nhiều hơn 2 nguồn tham khảo và phần phân tích bước nào đã/ chưa được giải quyết.
+- **Đủ yêu cầu lab:** Có hơn 3 existing solutions/patterns, nhiều hơn 2 nguồn tham khảo và phần phân tích bước nào đã/chưa được giải quyết.
 - **Đã có cả component và competitor:** Google/Slack/Notion/Zapier/GitHub đại diện cho hạ tầng; Todoist và Akiflow là sản phẩm cạnh tranh trực tiếp.
 - **Chưa đủ để claim novelty hoặc product-market fit:** Chưa có interview ngoài nhóm, chưa test tool thật và chưa so sánh định lượng với Todoist/Akiflow.
 - **Hành động cần thêm:** chạy baseline No-AI, thử ít nhất một competitor và phỏng vấn 5–10 sinh viên ngoài nhóm trước khi mở rộng thành sản phẩm.
@@ -393,7 +404,7 @@ Dừng hoặc rollback về read-only nếu:
 
 ### Phase 3 — Group convergence
 
-- [x] Có đầu vào từ 12 candidates của bốn thành viên.
+- [x] Có đầu vào từ 12 candidates của bốn thành viên phân tích.
 - [x] Có gom trùng/cluster.
 - [x] Có nhật ký pitch và challenge.
 - [x] Có shortlist và score 1–5.
