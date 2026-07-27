@@ -1,298 +1,437 @@
 # Group Report — Day 02
 
-> Candidate problem nhóm lựa chọn: **Theo dõi task và deadline từ nhiều nền tảng**.
->
-> Bản này được tổng hợp từ bốn báo cáo cá nhân trong nhóm. Các baseline hiện tại là số liệu tự quan sát hoặc ước tính ban đầu; nhóm sẽ kiểm chứng lại bằng log trong pilot trước khi dùng làm cam kết sản phẩm.
+**Candidate problem được chọn:** Aggregator & Centralized Deadline Tracker
+
+**Mức giải pháp:** Workflow — Rule để đồng bộ/lọc dữ liệu, AI để trích xuất thông tin phi cấu trúc, người dùng xác nhận trước khi ghi
+
+**Quyết định:** Go với pilot nhỏ; Not Yet đối với Agent tự trị và tích hợp toàn bộ nền tảng
+
+> Bản này là group asset dùng chung của nhóm. Baseline hiện tại chủ yếu đến từ self-report và ước tính ban đầu; nhóm không coi các con số này là kết quả đã được kiểm chứng cho đến khi hoàn thành time-log và pilot.
 
 ## Thành viên nhóm
 
-| STT | Họ và tên | Mã học viên | Đóng góp chính trong Phase 3–6 |
+| STT | Họ và tên | Mã học viên | Vai trò trong nhóm |
 |---:|---|---|---|
-| 1 | Lương Quốc Khánh | 2A202601713 | Đề xuất bài toán task/deadline đa nền tảng; tổng hợp workflow, metric và human boundary |
-| 2 | Nguyễn Thu Huyền | 2A202601027 | Bổ sung evidence về báo cáo daily, lịch họp định kỳ và việc chuẩn bị context bị phân tán |
-| 3 | Hoàng Đức Anh | 2A202601223 | Đề xuất Centralized Deadline Tracker; phân tích API integration, workflow và fallback |
-| 4 | Trần Nguyễn Mỹ Anh | 2A202601019 | Challenge về độ tin cậy, fallback, quyền riêng tư và ranh giới giữa rule–AI–con người |
+| 1 | Trần Nguyễn Mỹ Anh | 2A202601019 | Điều phối, chuẩn hóa Problem Statement và boundary |
+| 2 | Lương Quốc Khánh | 2A202601713 | Problem owner, baseline, metric và kế hoạch validation |
+| 3 | Hoàng Đức Anh | 2A202601223 | Workflow trước/sau và đánh giá khả thi kỹ thuật |
+| 4 | Nguyễn Thu Huyền | 2A202601027 | Research phương án thay thế, risk và human review |
 
 ---
 
-## Phase 3 — Group Convergence
+# 02 — Group Problem Statement
 
-### 3.1. Tổng hợp 12 candidate problems
+## 1. Group convergence
 
-| # | Người đưa ra | Candidate problem | Actor chính | Điểm nghẽn | Cảm nhận nhanh |
-|---:|---|---|---|---|---|
-| 1 | Lương Quốc Khánh | Sàng lọc paper nghiên cứu | Sinh viên/researcher | Đọc và so sánh 20–30 paper thủ công | Workflow |
-| 2 | Lương Quốc Khánh | Theo dõi experiment AI | Researcher | Config, log, checkpoint và metric phân tán | Workflow |
-| 3 | Lương Quốc Khánh | Theo dõi task và deadline đa nền tảng | Sinh viên/researcher | Tự nối thông tin từ Gmail, chat, GitHub và Calendar | Workflow |
-| 4 | Nguyễn Thu Huyền | Khảo sát và tổng hợp Literature Review | Sinh viên nghiên cứu | Đọc chi tiết và ghi chú paper chiếm phần lớn thời gian | Workflow |
-| 5 | Nguyễn Thu Huyền | Sàng lọc và kiểm soát dataset lớn | Sinh viên AI/Data | Chỉ biết dataset không phù hợp sau khi tải và xử lý | Workflow |
-| 6 | Nguyễn Thu Huyền | Nhắc lịch báo cáo daily và lịch họp | Học viên/thành viên dự án | Nhớ lại công việc và chuẩn bị context họp quá muộn | Rule/Workflow |
-| 7 | Hoàng Đức Anh | Daily Standup Reminder & Auto-Drafting | Learner | Lục lại activity hôm trước rồi viết standup | Workflow |
-| 8 | Hoàng Đức Anh | Tóm tắt yêu cầu Lab/Assignment | Learner | Đọc nhiều file dài để tìm rubric và acceptance criteria | Workflow |
-| 9 | Hoàng Đức Anh | Centralized Deadline Tracker | Learner | Lướt Slack/Discord rồi copy deadline thủ công | Rule/Workflow |
-| 10 | Trần Nguyễn Mỹ Anh | BEV Vision Debugging Tool | Perception engineer | Đồng bộ và overlay Camera–LiDAR–BEV thủ công | Workflow |
-| 11 | Trần Nguyễn Mỹ Anh | Triage failure case theo metric | CV researcher | Từ metric aggregate truy ngược về frame lỗi | Workflow |
-| 12 | Trần Nguyễn Mỹ Anh | Calibration Alignment Check | Sensor-fusion engineer | Kiểm tra extrinsic/time offset bằng mắt | Workflow |
+### 1.1. Đầu vào từ bốn bài cá nhân
 
-### 3.2. Gom trùng và tạo cluster
+Mỗi thành viên đưa ba Problem Cards vào vòng hội tụ, tổng cộng 12 candidates.
 
-| Cluster | Candidates included | Pattern chung | Ghi chú |
+| Thành viên | Candidate 1 | Candidate 2 | Candidate 3 |
 |---|---|---|---|
-| A — Task, deadline và báo cáo định kỳ | #3, #6, #7, #9 | Thông tin hành động và thời hạn nằm rải rác; người dùng phải tự nhớ, tìm, chép lại và kiểm tra nhiều lần | Ba thành viên có trải nghiệm trực tiếp; workflow xảy ra hằng ngày |
-| B — Đọc và cấu trúc tài liệu | #1, #4, #8 | Đọc nhiều nguồn dài rồi trích xuất phần liên quan thành checklist hoặc matrix | AI có lợi thế ngôn ngữ, nhưng fact-check khó và metric chất lượng phức tạp hơn |
-| C — Experiment và debugging | #2, #10, #11, #12 | Log, metric và artifact phân tán; khó truy ngược nguyên nhân lỗi | Impact kỹ thuật cao nhưng domain hẹp và dữ liệu/pipeline phức tạp |
-| D — Dataset preparation | #5 | Chỉ phát hiện dataset không phù hợp sau khi tải và xử lý | Pain thật nhưng phụ thuộc loại dữ liệu và hạ tầng cụ thể |
+| Trần Nguyễn Mỹ Anh | BEV Vision Debugging Tool | Triage failure case theo metric | Calibration Alignment Check |
+| Lương Quốc Khánh | Sàng lọc paper nghiên cứu | Theo dõi thí nghiệm AI | Theo dõi task và deadline đa nền tảng |
+| Hoàng Đức Anh | Daily Standup Reminder & Auto-Drafting | Tóm tắt yêu cầu Lab/Assignment | Aggregator & Centralized Deadline Tracker |
+| Nguyễn Thu Huyền | Khảo sát và tổng hợp paper | Sàng lọc dataset lớn | Nhắc lịch daily và lịch họp định kỳ |
 
-### 3.3. Shortlist
+### 1.2. Gom cụm vấn đề
 
-| Candidate | Vì sao vào shortlist | Rủi ro / điều chưa rõ |
+| Cluster | Candidate examples | Pattern chung |
 |---|---|---|
-| Theo dõi task và deadline đa nền tảng | Ba thành viên gặp trực tiếp; actor, workflow và baseline thời gian rõ; có thể tạo pilot nhỏ | Quyền truy cập API, quyền riêng tư, trùng task và AI hiểu nhầm tin nhắn |
-| Literature Review Workflow | Hai thành viên có pain rõ; AI phù hợp với đọc, trích xuất và so sánh văn bản | Hallucination, citation sai và khó đo “chất lượng hiểu paper” |
-| Experiment/Debug Dashboard | Nhóm có kinh nghiệm CV; impact lên chu kỳ nghiên cứu lớn | Scope kỹ thuật rộng, khó dùng chung cho nhiều người và khó hoàn thành validation trong lab |
+| Task, deadline và follow-up | Deadline Tracker, Daily Standup Reminder, lịch họp định kỳ | Thông tin hành động nằm rải rác; người dùng phải nhớ, kiểm tra và nhập lại |
+| Research discovery và synthesis | Sàng lọc paper, Literature Review, sàng lọc dataset | Tìm, đọc và chuẩn hóa lượng lớn thông tin trước khi ra quyết định |
+| Experiment và debugging | BEV Debugging, failure-case triage, calibration check, experiment tracking | Log, metric và artifact kỹ thuật nằm ở nhiều nơi, khó truy vết |
+| Learning và document processing | Tóm tắt lab/assignment, meeting notes | Đọc tài liệu dài rồi chuyển thành checklist hoặc nội dung hành động |
 
-### 3.4. Score để đồng thuận
+### 1.3. Nhật ký pitch và challenge
 
-Thang điểm: 1–5 cho từng tiêu chí.
+| Candidate | Tín hiệu ủng hộ từ bài cá nhân | Challenge chính | Kết luận sau challenge |
+|---|---|---|---|
+| Aggregator & Centralized Deadline Tracker | Hai thành viên độc lập mô tả trực tiếp cùng pain; một thành viên có pain gần kề về daily và lịch họp; tần suất hằng ngày; baseline ước tính 15–30 phút/ngày | Vấn đề do thông tin phân tán hay do chưa có quy trình quản lý thống nhất? API và quyền riêng tư có làm scope quá lớn không? | Giữ candidate nhưng thu hẹp MVP còn hai nguồn, read-only mặc định và bắt buộc xác nhận |
+| Sàng lọc/Literature Review paper | Hai thành viên gặp pain; tác động thời gian lớn | Chất lượng shortlist, hallucination và citation được đo thế nào? | Có giá trị nhưng quality metric khó xác nhận hơn trong pilot ngắn |
+| Daily Standup Reminder | Workflow rõ, lặp lại hằng ngày, dễ làm pilot | Reminder cố định và template có đủ không; có thật sự cần AI không? | Phần lớn pain reminder có thể giải bằng Rule; xem đây là một use case con của task tracker |
+| BEV Vision Debugging | Bottleneck và safety boundary rõ | Baseline 90–120 phút là ước lượng; domain hẹp và cần dữ liệu/công cụ chuyên biệt | Giữ cho bài toán chuyên ngành khác; không chọn làm bài chung |
 
-| Candidate | Actor rõ | Workflow rõ | Pain có evidence | Impact đo được | Làm pilot nhỏ | So sánh R/W/A được | Nhóm hiểu domain | Tổng |
+### 1.4. Shortlist và score
+
+Thang điểm cho mỗi tiêu chí: 1–5. Điểm “Pain có evidence” phản ánh bằng chứng hiện có trong bốn repository, không coi ước lượng cá nhân là khảo sát diện rộng.
+
+| Candidate | Actor rõ | Workflow rõ | Pain có evidence | Impact đo được | Làm pilot nhỏ | So sánh R/W/A | Nhóm hiểu domain | Tổng |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Task/deadline đa nền tảng | 5 | 5 | 5 | 5 | 4 | 5 | 5 | **34** |
-| Literature Review Workflow | 5 | 5 | 4 | 4 | 4 | 5 | 5 | **32** |
-| Experiment/Debug Dashboard | 4 | 4 | 4 | 4 | 2 | 4 | 4 | **26** |
+| Aggregator & Centralized Deadline Tracker | 5 | 5 | 4 | 5 | 4 | 5 | 5 | **33** |
+| Sàng lọc/Literature Review paper | 5 | 5 | 4 | 4 | 4 | 4 | 5 | **31** |
+| Daily Standup Reminder | 5 | 5 | 4 | 4 | 5 | 4 | 4 | **31** |
+| BEV Vision Debugging | 5 | 5 | 3 | 4 | 3 | 5 | 4 | **29** |
 
-**Candidate nhóm chọn:**
+Nhóm chọn: **Aggregator & Centralized Deadline Tracker**.
 
-> Theo dõi task và deadline từ nhiều nền tảng cho sinh viên/learner tham gia đồng thời việc học, nghiên cứu và project nhóm.
+Vì sao chọn:
 
-**Vì sao chọn:**
+- Hai thành viên độc lập ghi nhận trực tiếp cùng một pain trên các tập nền tảng khác nhau; một thành viên ghi nhận pain gần kề về daily và lịch họp.
+- Workflow lặp lại hằng ngày, bottleneck và điểm can thiệp cụ thể.
+- Có baseline ban đầu về thời gian và số lượt kiểm tra lại.
+- Có thể tách rõ phần Rule, phần AI và phần người dùng phải quyết định.
+- Có thể kiểm chứng bằng pilot read-only trước khi xin quyền ghi hoặc tích hợp sâu.
 
-- Ba trong bốn thành viên mô tả trực tiếp pain liên quan deadline, daily report hoặc lịch họp phân tán.
-- Workflow xảy ra hằng ngày và có baseline thời gian ban đầu từ 15–30 phút/ngày.
-- Bottleneck không chỉ là thiếu nhắc lịch; người dùng phải đọc thông báo tự do, hiểu hành động cần làm, lấy deadline rồi nhập lại vào công cụ cá nhân.
-- Có thể tách rõ phần Rule, AI và human review.
-- Có thể pilot với 2–3 nguồn thay vì tích hợp toàn bộ nền tảng ngay lập tức.
+Vì sao chưa chọn các candidate khác:
 
-**Vì sao chưa chọn các candidate còn lại:**
+- **Literature Review:** impact lớn nhưng khó đánh giá chất lượng shortlist và độ đúng của tổng hợp trong thời gian ngắn.
+- **Daily Standup Reminder:** phần reminder có thể giải đủ tốt bằng lịch cố định và template; phạm vi pain hẹp hơn.
+- **BEV Vision Debugging:** phù hợp một nhóm chuyên môn hẹp, cần dữ liệu đa cảm biến và môi trường đánh giá riêng.
 
-- Literature Review có impact lớn nhưng rủi ro citation/hallucination cao và metric chất lượng khó thống nhất trong thời gian lab.
-- Experiment/Debug Dashboard phù hợp domain CV nhưng scope hẹp, phụ thuộc schema dữ liệu và yêu cầu công triển khai lớn hơn.
-
-**Cách nhóm xử lý disagreement:**
-
-Nhóm không chọn theo mức độ “ngầu” của giải pháp AI. Nhóm thống nhất ưu tiên candidate có nhiều thành viên tự trải nghiệm, có baseline dễ đo, workflow vẽ được và có pilot nhỏ. Các ý tưởng daily standup và lịch họp được xem là use case con của bài toán task/deadline, không mở rộng thành một trợ lý tự động làm mọi việc.
+Nếu có disagreement, nhóm xử lý bằng cách ưu tiên candidate có actor chung, workflow thật, baseline có thể đo và pilot nhỏ; không chọn theo mức độ “ngầu” của giải pháp AI.
 
 ---
 
-## Phase 4 — Quick Validation và Research giải pháp
+## 2. Quick validation
 
-### 4.1. Quick validation ban đầu
+### 2.1. Bằng chứng hiện có
 
-Nhóm chưa thực hiện khảo sát bên ngoài. Validation hiện tại chỉ dựa trên bốn báo cáo cá nhân, vì vậy được xem là **tín hiệu ban đầu**, chưa phải bằng chứng đại diện cho toàn bộ sinh viên.
-
-| Nguồn | Số người / mẫu | Tín hiệu xác nhận | Tín hiệu phản bác / giới hạn | Nhóm sửa problem thế nào |
+| Nguồn | Mẫu | Tín hiệu xác nhận | Tín hiệu phản bác/chưa chắc | Nhóm sửa problem thế nào |
 |---|---:|---|---|---|
-| Báo cáo cá nhân trong nhóm | 4 người | 3/4 người mô tả trực tiếp pain về deadline, daily report, lịch họp hoặc task phân tán | 1 thành viên không đưa vấn đề này vào top 3; mức pain khác nhau giữa từng người | Thu hẹp actor vào learner/sinh viên làm nhiều project, không tuyên bố vấn đề đúng với mọi người |
-| Baseline của Quốc Khánh | 1 workflow cá nhân | Mất khoảng 20–30 phút/ngày và kiểm tra 3–5 lượt/ngày | Là số tự ước tính, chưa có log 14 ngày | Đưa time-log vào pilot thay vì coi số này là dữ liệu chính thức |
-| Baseline của Đức Anh | 1 workflow cá nhân | Mất khoảng 15–20 phút/ngày; có lúc bỏ sót deadline do thông báo trôi | Chưa ghi log số lần bỏ sót trong một khoảng thời gian cố định | Chọn metric “deadline có nguồn nhưng không được capture” để đo rõ hơn |
-| Baseline của Thu Huyền | 1 workflow cá nhân | Daily report có thể trễ 3–4 lần/tuần; việc nhớ task và chuẩn bị họp tốn thời gian | Scope rộng hơn task tracker vì bao gồm viết report và chuẩn bị meeting | Chỉ giữ bước capture task/deadline/context; auto-draft report là extension, không phải core pilot |
+| Bốn individual reports | 4 thành viên | 2/4 mô tả trực tiếp việc tổng hợp task/deadline đa nền tảng; 1/4 có pain gần kề về daily và lịch họp | Không phải tất cả thành viên đều gặp cùng mức độ pain | Actor của pilot là sinh viên/researcher tham gia nhiều khóa học hoặc dự án, không khái quát cho mọi sinh viên |
+| Hai Problem Cards trực tiếp | 2 workflows | Baseline ước tính 15–30 phút/ngày; 3–5 lượt kiểm tra/ngày; nguồn gồm LMS, Calendar, Slack/Discord, Notion, Gmail và GitHub | Các số liệu là self-estimate, chưa có time-log; “sót deadline” chưa ghi rõ trong cửa sổ thời gian nào | Ghi baseline là giả thuyết; bắt buộc đo lại trước pilot |
+| Challenge trong bài của Quốc Khánh | 1 challenge chính | Pain nằm ở việc nối mẩu thông tin thành task có action, deadline và context | Có thể nguyên nhân chính là thiếu một quy trình cá nhân thống nhất, không phải thiếu AI | Pilot phải so sánh với No AI: một task manager và khung giờ review cố định |
+| Ghi chú metric trong bài của Mỹ Anh | Review chéo | Nhấn mạnh cần log thực nghiệm trước khi cam kết metric | Không được dùng ước lượng làm kết quả đã kiểm chứng | Thêm giai đoạn baseline 7 ngày, audit lỗi và assumption log |
 
-**Insight sau validation nội bộ:**
-
-> Pain cốt lõi không phải “không có ứng dụng nhắc việc”. Pain nằm ở bước biến thông báo và yêu cầu rời rạc từ nhiều nguồn thành một task có hành động, deadline, nguồn gốc và mức độ ưu tiên rõ ràng.
-
-### 4.2. Research giải pháp đã có
-
-Research được thực hiện ngày 27/07/2026 trên tài liệu chính thức của các công cụ.
-
-| Nguồn / tool / pattern | Link | Họ giải quyết phần nào? | Điểm mạnh | Khoảng trống / rủi ro | Bài học cho nhóm |
-|---|---|---|---|---|---|
-| Google Tasks + Google Calendar/Gmail | [Google Tasks Help](https://support.google.com/tasks/answer/7675772) | Tạo task từ Gmail/Calendar/Chat; task có ngày xuất hiện trong Calendar | Miễn phí, phù hợp hệ sinh thái Google, nguồn email có thể truy vết | Không tự tổng hợp Slack/Discord/Notion/LMS; người dùng vẫn phải chủ động tạo task | Google Tasks có thể là output của pilot, nhưng chưa phải lớp aggregation |
-| Todoist Calendar Integration | [Todoist Help](https://www.todoist.com/help/articles/use-the-calendar-integration-rCqwLCt3G) | Hiển thị calendar event cùng task và đồng bộ task time-blocked với lịch | UI planning tốt, giảm việc đổi qua lại giữa task và calendar | Không tự hiểu mọi tin nhắn tự do thành task; tích hợp nguồn vẫn cần cấu hình | Dashboard thống nhất hữu ích, nhưng capture và provenance vẫn là khoảng trống cần giải |
-| Slack Workflow Builder + connectors | [Slack Workflow Builder](https://slack.com/help/articles/360035692513-Guide-to-Slack-Workflow-Builder) · [Slack connectors](https://slack.com/help/articles/20155812595219-Slack-connectors-for-Workflow-Builder) | Tự động hóa quy trình và gọi hành động ở Google Calendar, Gmail, Google Tasks, GitHub, Notion... | No-code, trigger/step rõ, phù hợp rule và structured workflow | Slack-centric; phụ thuộc paid plan, admin/app approval; không bao phủ Discord/LMS và vẫn có rủi ro parse text | Structured action nên xử lý bằng connector/rule, không cần Agent |
-| Zapier integrations | [Google Calendar + Slack](https://zapier.com/apps/google-calendar/integrations/slack) · [Google Tasks + Notion](https://zapier.com/apps/google-tasks/integrations/notion) | Đồng bộ sự kiện/task giữa các ứng dụng bằng trigger-action | Nhiều connector, nhanh để prototype | Mỗi integration cần setup riêng; rule thuần túy khó hiểu deadline trong tin nhắn tự do, deduplicate và giữ context | Có thể dùng làm baseline non-AI hoặc lớp automation trong pilot |
-| Akiflow Universal Inbox | [Akiflow Task Management](https://akiflow.com/task-management) | Gom task từ nhiều nguồn, chuyển Slack/email thành task và time-block trên lịch | Gần với vision “universal task inbox” | Là sản phẩm thương mại; coverage tùy integration; chưa giải trực tiếp bài toán learner/LMS/Discord và validation nguồn | Nhóm không nên claim ý tưởng chưa tồn tại; novelty nằm ở scope learner, capture có nguồn và human confirmation |
-
-**Research takeaway:**
-
-- Thị trường đã có task manager, calendar sync và automation connector; nhóm không nên xây thêm một todo app chung chung.
-- Rule/API giải tốt dữ liệu có cấu trúc như calendar event, assigned issue hoặc task database.
-- AI chỉ có giá trị rõ ở nguồn phi cấu trúc: email/chat chứa yêu cầu, deadline hoặc thay đổi lịch bằng ngôn ngữ tự nhiên.
-- Khoảng trống nhóm chọn để khảo sát là: **candidate task inbox có provenance, deduplication, confidence và human confirmation trước khi ghi vào hệ thống chính thức**.
-
----
-
-## Phase 5 — Workflow và Problem Statement
-
-### 5.1. Current workflow bản nhóm
+### 2.2. Insight sau validation
 
 ```text
-CURRENT STATE — khoảng 20–30 phút/ngày, kiểm tra 3–5 lượt/ngày
-
-[1 Mở LMS/Gmail để tìm assignment và yêu cầu mới: 4']
-→ [2 Mở Google Calendar để xem lịch và deadline đã có: 2']
-→ [3 Lướt Slack/Discord/Zalo tìm thông báo bị trôi: 8']  <-- bottleneck 1
-→ [4 Mở GitHub/Notion kiểm tra issue và task nhóm: 3']
-→ [5 Tự hiểu nội dung, xác định hành động + deadline: 5'] <-- bottleneck 2
-→ [6 Copy/gõ lại vào note, Calendar hoặc task manager: 5']
-→ [7 Tự sắp xếp priority và kiểm tra lại trong ngày: 2–5']
+Pain cốt lõi không phải “thiếu một chatbot quản lý lịch”.
+Pain là việc người dùng phải biến các mẩu thông tin phân tán thành một task
+có hành động, deadline, ngữ cảnh và nguồn gốc rõ ràng.
 ```
+
+Trạng thái bằng chứng:
+
+- **Đã có:** hai trải nghiệm trực tiếp độc lập, một trải nghiệm gần kề, workflow cụ thể và baseline ước tính.
+- **Chưa có:** time-log đủ dài, precision/recall của việc trích xuất deadline và số lần trễ hạn trong một cửa sổ đo cố định.
+- **Hành động tiếp theo:** đo baseline 7 ngày trước khi coi metric hiện tại là số liệu chính thức; sau đó chạy pilot 14 ngày.
+
+---
+
+## 3. Research giải pháp hiện có
+
+Research snapshot: **27/07/2026**. Nhóm ưu tiên tài liệu chính thức của sản phẩm và nền tảng.
+
+| Nguồn/tool | Link | Họ giải quyết phần nào? | Điểm mạnh | Khoảng trống/rủi ro | Bài học cho nhóm |
+|---|---|---|---|---|---|
+| Google Tasks + Google Calendar/Gmail | [Google Tasks Help](https://support.google.com/tasks/answer/7675772) · [Create task from Gmail](https://support.google.com/mail/answer/9920317) · [Calendar API](https://developers.google.com/workspace/calendar/api/guides/overview) | Tạo task từ Gmail, hiển thị task trong Calendar và cung cấp API cho dữ liệu lịch | Phù hợp làm destination/hub; dữ liệu ngày giờ có cấu trúc và dễ truy vết trong hệ sinh thái Google | Không tự chuyển thông báo ngoài Google thành task đáng tin cậy; quyền API phải giới hạn | Dùng Google Tasks/Calendar làm output của pilot, không coi là toàn bộ solution |
+| Slack Workflow Builder + connectors/Events API | [Workflow Builder](https://slack.com/help/articles/360035692513-Guide-to-Slack-Workflow-Builder) · [Connectors](https://slack.com/help/articles/20155812595219-Slack-connectors-for-Workflow-Builder) · [Events API](https://docs.slack.dev/apis/events-api/) | Trigger workflow từ hoạt động/tin nhắn, nhận event và gọi bước ở Google Calendar, Gmail, Google Tasks, GitHub, Notion | Hỗ trợ event-driven automation và nhiều connector | Phụ thuộc OAuth scope, workspace policy, app approval và gói sử dụng; không được quét toàn bộ workspace/DM | Chỉ đọc channel hoặc message được chọn; pilot có thể dùng forward/copy-paste trước live integration |
+| Notion Database Automation + AI Autofill | [Database automations](https://www.notion.com/help/database-automations) · [Notion AI Autofill](https://www.notion.com/help/autofill) | Tự động hóa database và trích xuất key information từ nội dung page/row | Tốt khi dữ liệu đã ở trong Notion; có thể làm review dashboard | Nguồn ngoài vẫn cần ingestion; AI Autofill không giải quyết toàn bộ provenance và quyền truy cập | Dashboard phải giữ source link và trạng thái approve/dismiss |
+| Zapier Paths, Webhooks và Email Parser | [Paths](https://zapier.com/features/paths) · [Webhooks](https://zapier.com/features/webhooks) · [Email Parser](https://zapier.com/features/parser) | Rule-based routing, webhook và trích xuất trường từ email có mẫu | Giải quyết tốt trigger, filter và chuyển dữ liệu giữa nhiều app | Parser template yếu với text mơ hồ; flow phức tạp, chi phí và quyền truy cập tăng theo số tích hợp | Dùng automation cho phần deterministic; AI chỉ cho text phi cấu trúc |
+| GitHub Notifications | [GitHub Docs](https://docs.github.com/en/subscriptions-and-notifications/concepts/about-notifications) | Triage activity trong issue, PR, CI và repository | Có filter, saved state và lý do nhận notification | Notification không đồng nghĩa với task có deadline; chỉ giải quyết trong GitHub | Chỉ lấy item được assign/mention hoặc qua rule rõ, không kéo toàn bộ notification |
+| Todoist Calendar Integration | [Todoist Help](https://www.todoist.com/help/articles/use-the-calendar-integration-rCqwLCt3G) | Hiển thị Calendar event cạnh task và đồng bộ task đã time-block sang Google/Outlook Calendar | Planning UI trưởng thành; là baseline cạnh tranh trực tiếp cho centralized task/calendar | Không tự hiểu mọi message tự do thành candidate task; vẫn cần người dùng capture hoặc connector riêng | Nhóm phải chứng minh phần capture/provenance tốt hơn việc chỉ dùng Todoist + Calendar |
+| Akiflow Universal Inbox | [Akiflow Task Management](https://akiflow.com/task-management) · [Akiflow Inbox](https://product.akiflow.com/help/articles/5284502-your-inbox) | Gom task từ nhiều integration vào một Inbox, hỗ trợ chuyển email/message thành task và lên lịch | Gần với ý tưởng universal task inbox; chứng minh nhu cầu aggregation đã có sản phẩm giải quyết | Là sản phẩm thương mại đã khá đầy đủ; ý tưởng nhóm không mới nếu chỉ “gom task về một chỗ” | Khoảng trống cần pitch không phải centralized inbox chung, mà là pilot có provenance, confidence, ground-truth evaluation và human approval rõ |
+
+### Research takeaway
+
+```text
+Không cần build Agent tự trị ngay.
+Các nền tảng hiện có đã xử lý tốt phần trigger, API, filter, calendar view
+và thậm chí universal inbox.
+
+Khoảng trống nhóm cần kiểm chứng không phải “gom mọi task về một nơi” nói chung,
+mà là chuyển text phi cấu trúc thành candidate task có action, deadline, context,
+source link và confidence; người dùng vẫn phải xác nhận trước mọi write action.
+```
+
+### Đánh giá mức độ research
+
+- **Đủ yêu cầu lab:** Có hơn 3 existing solutions/patterns, nhiều hơn 2 nguồn tham khảo và phần phân tích bước nào đã/ chưa được giải quyết.
+- **Đã có cả component và competitor:** Google/Slack/Notion/Zapier/GitHub đại diện cho hạ tầng; Todoist và Akiflow là sản phẩm cạnh tranh trực tiếp.
+- **Chưa đủ để claim novelty hoặc product-market fit:** Chưa có interview ngoài nhóm, chưa test tool thật và chưa so sánh định lượng với Todoist/Akiflow.
+- **Hành động cần thêm:** chạy baseline No-AI, thử ít nhất một competitor và phỏng vấn 5–10 sinh viên ngoài nhóm trước khi mở rộng thành sản phẩm.
+
+---
+
+## 4. Workflow before/after
+
+### 4.1. Current workflow
+
+```text
+CURRENT STATE — baseline giả thuyết 15–30 phút/ngày
+
+[1 Mở LMS/Gmail: 3–5']
+→ [2 Mở Google Calendar: 2–3']
+→ [3 Lướt Slack/Discord tìm thông báo: 5–8']  <-- bottleneck
+→ [4 Kiểm tra GitHub/Notion: 3–5']
+→ [5 Nối các mẩu thông tin thành task: 3–5']   <-- bottleneck
+→ [6 Gõ lại task/deadline vào note hoặc nhớ trong đầu: 2–5']
+→ [7 Mở lại các nguồn 3–5 lần trong ngày]
+```
+
+Bàn giao hiện tại:
+
+```text
+Nguồn thông báo
+→ người học tự đọc
+→ bộ nhớ/note cá nhân
+→ task hoặc calendar event
+```
+
+Hai điểm nghẽn:
+
+1. **Discovery:** thông báo quan trọng bị trôi giữa nhiều nguồn.
+2. **Normalization:** người dùng phải tự suy ra action, deadline, context và nhập lại.
 
 | Bước | Actor | Input | Output | Thời gian/tần suất | Ghi chú |
-|---:|---|---|---|---|---|
-| 1 | Learner | Email/LMS notification | Danh sách yêu cầu có thể cần làm | 3–5 phút, ít nhất 1 lần/ngày | Một số nguồn có dữ liệu cấu trúc |
-| 2 | Learner | Calendar event/task | Lịch và deadline đã biết | Khoảng 2 phút/ngày | Không chứa task từ các nền tảng khác |
-| 3 | Learner | Tin nhắn Slack/Discord/Zalo | Thông báo deadline hoặc thay đổi yêu cầu | Khoảng 8 phút/ngày | **Bottleneck:** tin nhắn bị trôi và phi cấu trúc |
-| 4 | Learner | GitHub Issue/Notion task | Trạng thái project | Khoảng 3 phút/ngày | Có thể trùng với thông báo chat |
-| 5 | Learner | Nội dung đã đọc | Task, deadline và context do người dùng tự diễn giải | Khoảng 5 phút/ngày | **Bottleneck:** cognitive load và ambiguity |
-| 6 | Learner | Task tự diễn giải | Bản ghi trong task manager/calendar | Khoảng 5 phút/ngày | Copy thủ công, dễ thiếu link nguồn |
-| 7 | Learner | Danh sách task | Priority trong ngày | 2–5 phút, lặp lại 3–5 lượt/ngày | Deadline và priority có thể thay đổi |
+|---|---|---|---|---|---|
+| 1 | Learner | LMS/Gmail | Danh sách thông báo ban đầu | 3–5 phút/ngày | Có cả thông báo không phải task |
+| 2 | Learner | Google Calendar | Event trong ngày/tuần | 2–3 phút/ngày | Structured data |
+| 3 | Learner | Slack/Discord message | Candidate deadline/task | 5–8 phút/ngày | Bottleneck discovery; message dễ bị trôi |
+| 4 | Learner | GitHub/Notion | Issue/task/project context | 3–5 phút/ngày | Nguồn có mức cấu trúc khác nhau |
+| 5 | Learner | Các mẩu thông tin | Task có action, deadline, context | 3–5 phút/ngày | Bottleneck normalization |
+| 6 | Learner | Task đã hiểu | Note/task/calendar item | 2–5 phút/ngày | Nhập lại thủ công, có thể thiếu source |
+| 7 | Learner | Trí nhớ và nguồn cũ | Kiểm tra lại | 3–5 lượt/ngày | Tăng cognitive load |
 
-**Bottleneck chính:**
-
-> Learner phải tự đọc nguồn phi cấu trúc, nhận ra câu nào thực sự tạo ra một hành động/deadline, nối với context liên quan rồi copy sang công cụ cá nhân. Reminder thông thường không giải được bước diễn giải và chuyển đổi này.
-
-### 5.2. Future workflow bản nhóm
+### 4.2. Future workflow
 
 ```text
-FUTURE STATE — mục tiêu dưới 10 phút/ngày
+FUTURE STATE — mục tiêu ≤8 phút/ngày
 
-[1 Rule/connectors lấy item từ nguồn được cấp quyền: Gmail, Calendar, GitHub/Notion]
-→ [2 AI chỉ phân tích email/chat được chọn để tạo Candidate Task]
-→ [3 Rule chuẩn hóa: title, deadline, source link, deduplicate, confidence]
-→ [4 Learner review: Confirm / Edit / Dismiss]  <-- human boundary
-→ [5 Sau khi Confirm mới tạo task hoặc calendar event]
-→ [6 Dashboard tạo daily digest và gợi ý priority; learner quyết định]
-
-Fallback:
-- Thiếu hoặc mâu thuẫn deadline → gắn `Needs review`, không tự tạo task chính thức.
-- Confidence thấp → chỉ hiển thị candidate kèm link nguồn.
-- Connector lỗi → giữ dữ liệu cũ, báo source chưa đồng bộ; người dùng vẫn nhập task thủ công.
-- AI hiểu sai → người dùng Dismiss/Edit; hệ thống không gửi email, nộp bài hay thay đổi deadline.
+[1 Read-only sync từ Calendar + 1 nguồn thông báo đã chọn: <1'] -- API/Rule
+→ [2 Rule lọc ngày giờ, keyword và loại event rõ: <1']          -- Rule
+→ [3 AI trích xuất candidate task + deadline + context: <1']    -- AI step
+→ [4 Rule gộp trùng và gắn source link: <1']                    -- Rule
+→ [5 Người dùng approve/edit/dismiss: 4–5']                     -- human boundary
+→ [6 Chỉ item đã approve mới được ghi vào hub: <1']             -- controlled write
+→ [7 Một daily review; mở nguồn gốc khi cần xác minh]
 ```
 
-#### Before/after impact
+Schema tối thiểu của một candidate task:
 
-| Metric | Trước | Sau kỳ vọng | Ghi chú |
+```text
+title
+action
+due_at hoặc "chưa xác định"
+source_name
+source_url/message_id
+context_summary
+confidence
+status = pending_review | approved | dismissed
+```
+
+Fallback:
+
+- Không chắc ngày/giờ hoặc action → đánh dấu `chưa xác định`, không tự tạo task.
+- Không có quyền đọc nguồn → bỏ qua nguồn đó và hiển thị trạng thái thiếu dữ liệu.
+- AI lỗi hoặc confidence thấp → hiển thị raw message để người dùng nhập thủ công.
+- Pipeline dừng → người dùng quay về Calendar + checklist review cố định.
+
+Bottleneck mới:
+
+```text
+Người dùng review candidate tasks.
+```
+
+Đây là bottleneck chấp nhận được vì nó giữ quyền quyết định và kiểm soát lỗi ở người dùng.
+
+### 4.3. Before/after impact
+
+| Metric | Trước — baseline giả thuyết | Sau kỳ vọng | Cách đo |
 |---|---:|---:|---|
-| Số bước chính | 7 | 6 | Số bước không giảm nhiều, nhưng phần tìm–copy được tự động hóa và review được gom một chỗ |
-| Tổng thời gian | Khoảng 20–30 phút/ngày | Dưới 10 phút/ngày | Đo bằng time-log 14 ngày trước và 14 ngày pilot |
-| Số lượt mở lại nhiều nền tảng | Khoảng 3–5 lượt/ngày | 1 lượt review tổng hợp; chỉ mở nguồn khi cần xác minh | Đếm lượt mở nguồn để tìm task/deadline |
-| Số bước thủ công | 7 | 2: review và quyết định priority | Việc tạo task chính thức vẫn cần xác nhận |
-| Khả năng truy vết | Nhiều task không có link nguồn | 100% candidate/task tự động có source link | Audit task cuối ngày |
-| Deadline bị bỏ sót do không capture | Chưa có baseline nhóm; một số thành viên ghi nhận có xảy ra | 0 deadline đã xuất hiện trong nguồn pilot nhưng không được đưa vào candidate inbox trong 4 tuần | Chỉ đo trên nguồn đã cấp quyền, không claim toàn bộ nền tảng |
-| Risk mới | Không có risk AI nhưng dễ bỏ sót thủ công | False positive, false deadline, duplicate, privacy/API permission | Mitigate bằng confidence, provenance và human confirmation |
-
-### 5.3. Problem Statement v0
-
-| Field | Nội dung |
-|---|---|
-| **Actor** | Sinh viên/learner đồng thời tham gia việc học, nghiên cứu và project nhóm, sử dụng từ 4 nền tảng trở lên để nhận task và deadline |
-| **Workflow** | Mỗi ngày mở Gmail/LMS, Calendar, chat, GitHub/Notion; đọc thông báo; tự xác định hành động và deadline; nhập lại vào công cụ cá nhân |
-| **Bottleneck** | Tìm thông báo phi cấu trúc bị trôi và chuyển nó thành task có context, deadline và nguồn gốc rõ ràng |
-| **Impact** | Mất khoảng 20–30 phút/ngày, kiểm tra 3–5 lượt/ngày và vẫn có nguy cơ quên/trễ task |
-| **Success Metric** | Dưới 10 phút/ngày; 1 lượt review tổng hợp; 100% task tự động có source link; 0 deadline thuộc nguồn pilot bị bỏ qua trong 4 tuần |
-| **Boundary** | Chỉ đọc nguồn được cấp quyền; không tự gửi/nộp, xác nhận lịch, đổi deadline hoặc tạo task chính thức khi chưa có người dùng xác nhận |
+| Thời gian tổng hợp kế hoạch | 15–30 phút/ngày | ≤8 phút/ngày | Bấm giờ 7 ngày baseline và 14 ngày pilot |
+| Lượt mở lại nền tảng để tìm task | 3–5 lượt/ngày | ≤1 lượt review tổng hợp/ngày; mở nguồn khi xác minh | Tally theo ngày |
+| Task có source link | Chưa đo; nhiều item ghi tay | 100% item do hệ thống tạo | Audit cuối ngày |
+| Deadline quan trọng bị bỏ sót bởi workflow | Chưa có baseline theo cửa sổ cố định | 0 trong 14 ngày pilot | So sánh với ground truth do người dùng lập cuối ngày |
+| Precision của candidate task | Chưa có | ≥90% | Candidate đúng / tổng candidate hệ thống tạo |
+| Recall trên tập message được gắn nhãn | Chưa có | ≥95%; deadline critical mục tiêu 100% | So với ground truth do hai người dùng gắn nhãn |
+| Hành động không được phê duyệt | Không áp dụng | 0 | Audit log mọi write action |
 
 ---
 
-## Phase 6 — Rule / Workflow / Agent và Decision
-
-### 6.0. Ma trận độ phù hợp với AI
-
-**Vị trí của bài toán:** độ phức tạp cao, độ mơ hồ trung bình.
-
-**Vì sao:**
-
-- Có ít nhất 3 nguồn dữ liệu và nhiều bước ingestion, parsing, deduplication, review và sync.
-- Structured item như Calendar event hoặc GitHub Issue có độ mơ hồ thấp và nên dùng Rule.
-- Email/chat tự do có thể chứa deadline, thay đổi lịch, lời nhắc hoặc chỉ là thảo luận nên cần hiểu ngữ cảnh.
-- AI không cần tự quyết định mục tiêu hoặc tự thay đổi workflow; vì vậy chưa cần Agent.
-
-### 6.1. So sánh Rule / Workflow / Agent
-
-| Mức | Phương án cho bài toán nhóm | Khi nào đủ | Rủi ro | Chọn? |
-|---|---|---|---|---|
-| **Rule** | API/webhook lấy Calendar, GitHub Issue, Notion task; keyword/regex tìm ngày; reminder cố định | Đủ cho nguồn có schema và deadline rõ | Bỏ sót câu tự nhiên, hiểu nhầm ngày, không nối được context và duplicate | Không chọn làm mức tổng thể; dùng như component |
-| **Workflow** | Rule ingestion + AI parse nguồn phi cấu trúc + chuẩn hóa/deduplicate + human review + confirmed sync | Phù hợp khi các bước rõ nhưng một bước cần hiểu ngôn ngữ | False positive, quyền riêng tư, connector lỗi | **Chọn** |
-| **Agent** | Tự chọn nguồn cần kiểm tra, tự tạo/đổi task, tự lên lịch và gửi nhắc | Chỉ phù hợp khi cần tự lập kế hoạch và hành động đa công cụ | Quyền truy cập rộng, tự hành động sai, khó audit/rollback | Không chọn ở giai đoạn này |
-
-**Mức chọn:** `Workflow`.
-
-**Vì sao chọn:**
-
-Workflow cho phép dùng Rule ở phần chắc chắn, AI ở đúng bước phi cấu trúc và đặt con người tại điểm quyết định. Quy trình có thể audit qua source link, confidence và trạng thái Confirm/Edit/Dismiss.
-
-**Vì sao không chỉ chọn Rule:**
-
-Rule có thể giải phần sync Calendar/GitHub/Notion và reminder định kỳ, nhưng chưa giải tốt các thông báo như “deadline lùi sang tối thứ Sáu”, “nhớ hoàn thiện phần evaluation trước buổi mentor” hoặc task ẩn trong thread chat. Tuy nhiên, pilot phải so sánh với baseline Rule để chứng minh AI thực sự tạo thêm giá trị.
-
-**Vì sao không chọn Agent:**
-
-Bài toán không cần AI tự lập kế hoạch hoặc tự hành động. Việc tự gửi báo cáo, nhận lịch, đổi deadline hoặc tạo task không xác nhận tạo rủi ro lớn hơn lợi ích và làm mờ trách nhiệm của người dùng.
-
-### 6.2. Problem Statement v1
+## 5. Problem Statement v0
 
 | Field | Nội dung |
 |---|---|
-| **Actor** | Sinh viên/learner tham gia đồng thời việc học, nghiên cứu và project nhóm, thường nhận task/deadline qua Gmail/LMS, Calendar, chat và công cụ project |
-| **Workflow** | Kiểm tra từng nền tảng, đọc thông báo, diễn giải hành động và deadline, nhập lại vào task manager rồi kiểm tra nhiều lần trong ngày |
-| **Bottleneck** | Nhận diện task/deadline trong nội dung phi cấu trúc, nối đúng context và loại trùng trước khi tạo bản ghi chính thức |
-| **Impact** | Baseline cá nhân khoảng 15–30 phút/ngày và 3–5 lượt kiểm tra; có trường hợp trễ daily hoặc bỏ sót deadline do thông báo trôi |
-| **Success Metric** | Giảm thời gian review xuống dưới 10 phút/ngày; chỉ cần 1 lượt review tổng hợp; ≥90% precision và ≥95% recall trên candidate task đã được người dùng gắn nhãn trong pilot; 100% candidate có source link; không tự tạo task khi confidence thấp |
-| **Boundary** | Chỉ xử lý nguồn được người dùng chọn; không đọc toàn bộ private chat; không tự gửi/nộp/xác nhận/đổi deadline; dữ liệu nhạy cảm không được dùng ngoài mục đích pilot |
-| **AI intervention point** | Chỉ dùng AI để trích xuất và tóm tắt candidate task từ email/chat phi cấu trúc; Rule xử lý nguồn có schema, deduplicate và sync |
-| **Mức chọn** | Workflow |
-| **Rủi ro & người thật kiểm tra** | False positive, deadline sai, duplicate và privacy; learner phải Confirm/Edit/Dismiss trước khi task được tạo |
+| **Actor** | Sinh viên/researcher tham gia đồng thời nhiều lớp học và dự án, phải theo dõi task/deadline trên nhiều nền tảng. |
+| **Workflow** | Mỗi ngày người dùng mở LMS/Gmail, Calendar, Slack/Discord, GitHub/Notion; đọc thông báo; nối ngữ cảnh; ghi lại task và tự ưu tiên. |
+| **Bottleneck** | Việc phát hiện thông báo quan trọng và chuyển các mẩu thông tin thành task có action, deadline, context và nguồn gốc rõ ràng. |
+| **Impact** | Baseline ước tính 15–30 phút/ngày, 3–5 lượt kiểm tra lại và có nguy cơ bỏ sót deadline; số liệu cần đo lại bằng log. |
+| **Success Metric** | Giảm thời gian xuống ≤8 phút/ngày, ≤1 lượt review tổng hợp, 100% task có source link, không có write action chưa được duyệt. |
+| **Boundary** | Không đọc nguồn chưa được cấp quyền; không tự gửi email/tin nhắn; không xác nhận lịch; không đổi deadline; không tạo, sửa hoặc xóa task chính thức trước khi người dùng approve. |
 
-### 6.3. Final decision
+---
+
+## 6. Rule / Workflow / Agent
+
+### 6.0. Vị trí trong ma trận AI suitability
+
+**Độ phức tạp:** cao — có nhiều nguồn và các bước ingestion, filtering, extraction, deduplication, review và controlled write.
+
+**Độ mơ hồ:** trung bình — Calendar event và GitHub Issue có cấu trúc rõ; email/chat có thể chứa task ẩn, ngày tương đối hoặc thay đổi lịch.
+
+Hệ thống không cần AI tự đặt mục tiêu hay tự chọn hành động tiếp theo, do đó chưa cần Agent.
+
+### 6.1. So sánh các mức
+
+| Mức | Phương án | Khi nào đủ | Rủi ro/giới hạn | Chọn? |
+|---|---|---|---|---|
+| **No AI / Process fix** | Chọn một task manager, khung giờ review cố định và quy ước mọi deadline phải vào Calendar | Đủ nếu nhóm có thể tuân thủ một nguồn chính và số thông báo ít | Vẫn phải nhập tay từ nguồn ngoài; phụ thuộc kỷ luật của nhiều người | Dùng làm baseline đối chứng |
+| **Rule** | Filter email/keyword, webhook, sync Calendar, template task | Đủ với thông báo có format và ngày giờ rõ | Bỏ sót câu tự nhiên mơ hồ; khó gộp context từ nhiều message | Dùng cho data sync, filter, dedup và write guard |
+| **Workflow** | Read-only sync → Rule filter → AI extract → Rule dedup/source link → user approve → controlled write | Hợp vì đường đi cố định, AI chỉ xử lý text phi cấu trúc và có human review | AI có thể false positive, bỏ sót hoặc suy ra sai ngày | **Chọn** |
+| **Agent** | Tự chọn nguồn, tự hỏi thêm, tự ưu tiên và tự tạo/đổi task/calendar | Chỉ đáng cân nhắc khi cần nhiều nhánh động và cơ chế quyền/rollback đã trưởng thành | Scope và permission lớn; khó kiểm soát hành động sai; chưa cần cho MVP | Chưa chọn |
+
+Mức chọn:
+
+```text
+Workflow.
+```
+
+Vì sao:
+
+- Data collection và các deadline có cấu trúc nên dùng API/Rule.
+- AI chỉ có lợi thế ở tin nhắn ngôn ngữ tự nhiên, gộp context và chuẩn hóa candidate task.
+- Người dùng review trước mọi write action nên rủi ro có thể kiểm soát và rollback.
+- Luồng xử lý cố định, chưa cần khả năng tự lập kế hoạch của Agent.
+
+Vì sao không chỉ chọn Rule:
+
+Rule có thể giải tốt phần Calendar/GitHub/Notion có schema và reminder cố định, nhưng khó hiểu các câu như “deadline lùi sang tối thứ Sáu”, “chuẩn bị evaluation trước buổi mentor” hoặc một task được chia qua nhiều message. Pilot phải chứng minh AI cải thiện recall hoặc thời gian so với Rule-only.
+
+---
+
+## 7. Problem Statement v1
+
+| Field | Nội dung |
+|---|---|
+| **Actor** | Sinh viên/researcher đang tham gia nhiều lớp học hoặc dự án và theo dõi task/deadline qua Calendar cùng các kênh thông báo. |
+| **Workflow** | Mở từng nền tảng → tìm thông báo có hành động → nối context → suy ra deadline → nhập task → kiểm tra lại trong ngày. |
+| **Bottleneck** | Chuyển thông báo phân tán, đặc biệt là text phi cấu trúc, thành một candidate task có action, deadline và source link đáng tin cậy. |
+| **Impact** | Baseline giả thuyết 15–30 phút/ngày và 3–5 lượt kiểm tra lại; có nguy cơ bỏ sót hoặc xử lý muộn. Baseline chính thức sẽ được đo trong 7 ngày. |
+| **Success Metric** | ≤8 phút/ngày; ≤1 lượt review tổng hợp; 100% task có source link; precision ≥90%; recall ≥95%; 0 write action chưa duyệt. |
+| **Boundary** | Pilot chỉ dùng Calendar và một nguồn thông báo được chọn; read-only mặc định; dữ liệu ngoài scope không được đọc; item mơ hồ phải gắn `chưa xác định`; người dùng approve trước khi ghi. |
+| **AI intervention point** | Sau bước Rule lọc candidate message và trước bước người dùng review. |
+| **Mức chọn** | Workflow: Rule sync/filter/dedup, AI extract text, người dùng approve, Rule kiểm soát write. |
+| **Rủi ro & người thật kiểm tra** | False positive, bỏ sót, sai múi giờ/ngày tương đối, lộ dữ liệu và duplicate. Người dùng đối chiếu source link, chỉnh/sửa hoặc dismiss trước khi tạo task. |
+
+### Problem Statement một câu
+
+> Sinh viên/researcher tham gia nhiều lớp học và dự án đang mất ước tính 15–30 phút mỗi ngày để mở nhiều nền tảng và tự chuyển các thông báo rời rạc thành task có action, deadline và ngữ cảnh; nhóm đề xuất một Workflow read-only dùng Rule để lọc/đồng bộ, AI để tạo candidate task và bắt buộc người dùng xác nhận trước khi ghi, với mục tiêu giảm thời gian xuống ≤8 phút/ngày mà không có hành động chưa được phê duyệt.
+
+---
+
+## 8. Final decision
+
+Decision:
+
+```text
+Go với Workflow pilot nhỏ.
+Not Yet với Agent tự trị hoặc tích hợp toàn bộ nền tảng.
+```
+
+### 8.1. Decision table
 
 | Câu hỏi | Yes / Not Yet / No | Ghi chú |
 |---|---|---|
-| Actor và workflow đã rõ chưa? | Yes | Nhóm có ba trải nghiệm trực tiếp và workflow hằng ngày vẽ được |
-| Baseline và success metric đã đo được chưa? | Not Yet | Có baseline ước tính nhưng cần time-log và labeled sample trong pilot |
-| Có data/input đủ dùng chưa? | Yes cho pilot nhỏ | Có thể dùng Gmail/Calendar của người tham gia và message được họ chủ động đưa vào; chưa cần full workspace access |
-| Nếu AI sai, hậu quả có chấp nhận được không? | Yes với boundary | Candidate sai chỉ bị Edit/Dismiss; hệ thống không tự hành động |
-| Có người review/owner vận hành không? | Yes | Mỗi learner review inbox của chính mình; nhóm chịu trách nhiệm audit pilot |
-| Có cách non-AI đơn giản hơn không? | Yes | Google Tasks/Calendar, Todoist, Zapier và reminder là baseline bắt buộc để so sánh |
+| Actor và workflow đã rõ chưa? | Yes | Nhóm có trải nghiệm trực tiếp và workflow hằng ngày vẽ được |
+| Baseline và success metric đã đo được chưa? | Not Yet | Có baseline ước tính nhưng cần time-log và labeled sample |
+| Có data/input đủ dùng chưa? | Yes cho pilot nhỏ | Calendar và message người dùng chủ động chọn/forward là đủ để thử |
+| Nếu AI sai, hậu quả có chấp nhận được không? | Yes với boundary | Candidate chỉ được Edit/Dismiss; hệ thống không tự ghi |
+| Có người review/owner vận hành không? | Yes | Mỗi learner review inbox của mình; nhóm audit pilot |
+| Có cách non-AI đơn giản hơn không? | Yes | Task manager + Calendar + Rule là baseline bắt buộc |
 
-**Decision:**
+### 8.2. Pilot nhỏ nhất
 
-> **Go cho pilot Workflow có phạm vi hẹp; Not Yet cho Agent hoặc tích hợp toàn bộ nền tảng.**
+- **Người dùng:** Quốc Khánh và Đức Anh — hai thành viên có Problem Card trực tiếp.
+- **Thời lượng:** 7 ngày đo baseline + 14 ngày chạy pilot.
+- **Nguồn:** Google Calendar và một kênh thông báo được hai người dùng chủ động chọn/cấp quyền; giai đoạn đầu có thể dùng export hoặc copy-paste thay vì live integration.
+- **Destination:** một centralized review list; chỉ khi approve mới tạo Google Task/Calendar event.
+- **Ground truth:** cuối mỗi ngày, mỗi người tự lập danh sách task/deadline thực tế và đối chiếu với output.
+- **Đối chứng No AI:** task manager duy nhất + khung giờ review cố định + rule/filter đơn giản.
+- **Output cần đo:** thời gian, số lượt mở nguồn, precision, recall, source-link coverage, số item phải sửa và số write action chưa duyệt.
 
-**Lý do:**
+### 8.3. Go / No-Go gate sau pilot
 
-Pain đã xuất hiện ở nhiều thành viên và có workflow/metric rõ. AI có một intervention point hợp lý là parse nội dung phi cấu trúc, nhưng giá trị tăng thêm so với Rule chưa được chứng minh. Vì vậy nhóm chỉ Go với pilot có human confirmation và baseline non-AI.
+Go sang MVP tích hợp API nếu:
 
-**Pilot nhỏ nhất:**
+- Median thời gian review ≤8 phút/ngày và giảm ít nhất 40% so với baseline đo được.
+- Precision ≥90%, recall ≥95% và không bỏ sót deadline được đánh dấu critical.
+- 100% task có source link.
+- Không có hành động ghi nào xảy ra trước khi người dùng approve.
+- Hai người dùng đánh giá centralized view hữu ích hơn phương án No AI.
 
-1. **Actor:** 4 thành viên nhóm trong 2–4 tuần.
-2. **Nguồn structured:** Google Calendar và email Gmail được gắn label riêng cho pilot.
-3. **Nguồn unstructured:** người dùng chủ động forward/paste message từ Slack/Discord/Zalo vào một inbox pilot; chưa yêu cầu quyền đọc toàn workspace.
-4. **Output:** Candidate Task gồm title, deadline, source, context, confidence và trạng thái `Confirm / Edit / Dismiss`.
-5. **Sau Confirm:** tạo Google Task hoặc Calendar event; không tự gửi/nộp bất kỳ nội dung nào.
-6. **Baseline A:** người dùng dùng Google Tasks/Calendar + reminder/template, không có AI parsing.
-7. **Workflow B:** Rule ingestion + AI extraction + human confirmation.
-8. **Đo:** thời gian review, precision/recall candidate task, số duplicate, số deadline nguồn pilot bị bỏ sót và mức hài lòng 1–5.
+Giữ ở Rule/Process fix nếu:
 
-**Điều cần validate tiếp trước khi mở rộng:**
+- AI không tạo thêm lợi ích rõ so với filter, template và task manager duy nhất.
+- Trên 30% candidate cần sửa lớn hoặc trên 20% candidate bị dismiss.
+- Tiết kiệm thời gian dưới 20%.
 
-- Thu thập time-log 14 ngày để xác nhận baseline thực tế.
-- Gắn nhãn tối thiểu 100 message/email thành `task`, `deadline`, `không phải task` để đo precision/recall.
-- Kiểm tra OAuth scope, retention và quyền xóa dữ liệu.
-- So sánh Rule-only với Workflow có AI; nếu AI không cải thiện đáng kể recall hoặc thời gian, quay về Rule/connector đơn giản.
+Dừng hoặc rollback về read-only nếu:
+
+- Có write action chưa được phê duyệt.
+- Có truy cập dữ liệu ngoài source/channel đã cho phép.
+- AI tự suy ra deadline nhưng không gắn cờ không chắc chắn hoặc không giữ source link.
+- Workflow bỏ sót một deadline critical trong pilot; chỉ tiếp tục sau khi root-cause và thêm guard.
+
+### 8.4. Decision rationale
+
+- Problem có workflow, actor, bottleneck và metric đủ cụ thể để kiểm chứng.
+- Hai thành viên độc lập gặp pain trực tiếp và một thành viên có pain gần kề, nhưng nhóm không biến ước lượng thành số liệu đã được xác nhận.
+- Phương án No AI và Rule được giữ làm baseline, không mặc định AI là đáp án.
+- AI nằm ở một bước cần xử lý ngôn ngữ phi cấu trúc; mọi hành động có hậu quả đều thuộc human boundary.
+- Scope pilot nhỏ, read-only trước, có exit criteria và rollback rõ.
 
 ---
 
-## Self-check bản nhóm
+## 9. Assumption và evidence log
 
-- [x] Đã trình bày và gom 12 candidate problems thành cluster.
-- [x] Có shortlist, score và lý do chọn candidate.
-- [x] Có validation nội bộ và ghi rõ giới hạn bằng chứng.
-- [x] Có research ít nhất 3 existing solutions/patterns.
+| Claim | Trạng thái | Cần làm để xác nhận |
+|---|---|---|
+| Người dùng mất 15–30 phút/ngày | Ước lượng từ hai bài cá nhân | Time-log 7 ngày |
+| Người dùng mở lại nền tảng 3–5 lần/ngày | Ước lượng cá nhân | Tally số lượt mở nguồn trong 7 ngày |
+| Có nguy cơ/sự cố bỏ sót deadline | Anecdotal, chưa có cửa sổ đo thống nhất | Ghi số incident trong baseline và pilot |
+| Rule không đủ cho text mơ hồ | Giả thuyết kỹ thuật | So sánh Rule-only với Rule + AI trên cùng tập message |
+| Centralized view giúp giảm cognitive load | Giả thuyết người dùng | Survey ngắn cuối pilot và so sánh thời gian |
+| Hai nguồn đủ tạo giá trị ban đầu | Giả thuyết scope | Đo coverage; chỉ thêm nguồn thứ ba nếu coverage thiếu có ý nghĩa |
+| Ý tưởng tạo giá trị khác biệt với Todoist/Akiflow | Chưa xác nhận | Cho người dùng thử ít nhất một competitor và so sánh capture, provenance, review effort |
+
+---
+
+## 10. Checklist đối chiếu yêu cầu đề bài
+
+### Phase 3 — Group convergence
+
+- [x] Có đầu vào từ 12 candidates của bốn thành viên.
+- [x] Có gom trùng/cluster.
+- [x] Có nhật ký pitch và challenge.
+- [x] Có shortlist và score 1–5.
+- [x] Có candidate được chọn và lý do không chọn candidate khác.
+
+### Phase 4 — Validation và research
+
+- [x] Có quick validation từ bốn individual reports và review chéo.
+- [x] Có tín hiệu xác nhận, tín hiệu phản bác và cách nhóm thu hẹp problem.
+- [x] Có ít nhất 3 existing solutions/patterns.
+- [x] Có hyperlink tới nguồn chính thức.
+- [x] Có phân tích họ giải quyết bước nào, khoảng trống và bài học cho nhóm.
+- [x] Có research takeaway.
+- [ ] Chưa có interview/survey ngoài nhóm — không phải phần thiếu bắt buộc để hoàn thành file, nhưng cần làm trước khi claim product-market fit.
+
+### Phase 5 — Workflow và Problem Statement
+
 - [x] Có current workflow với actor, input, output, thời gian và bottleneck.
-- [x] Có future workflow với Rule, AI, human boundary và fallback.
-- [x] Có metric trước/sau và cách đo trong pilot.
-- [x] Có Problem Statement v0 và v1.
-- [x] Có so sánh Rule / Workflow / Agent.
-- [x] Có quyết định Go / Not Yet rõ ràng và pilot nhỏ nhất.
+- [x] Có future workflow phân biệt Rule, AI và human boundary.
+- [x] Có fallback nếu AI sai hoặc connector lỗi.
+- [x] Có before/after metric và cách đo.
+- [x] Có Problem Statement v0 với Actor, Workflow, Bottleneck, Impact, Success Metric và Boundary.
+
+### Phase 6 — Rule / Workflow / Agent và Decision
+
+- [x] Có đánh giá độ phức tạp và độ mơ hồ.
+- [x] Có so sánh No AI / Rule / Workflow / Agent.
+- [x] Có lý do chọn Workflow và lý do chưa chọn Agent.
+- [x] Có Problem Statement v1 và AI intervention point.
+- [x] Có Decision table.
+- [x] Có quyết định Go / Not Yet rõ ràng.
+- [x] Có pilot nhỏ nhất, metric, Go/No-Go gate và rollback.
+- [x] Có assumption/evidence log để không biến ước lượng thành fact.
+
+### Kết luận kiểm tra
+
+Bản group report đã đáp ứng đầy đủ các mục bắt buộc Phase 3–6 trong worksheet. Research đủ cho yêu cầu lab và đã bao phủ cả giải pháp hạ tầng lẫn competitor trực tiếp. Phần còn thiếu duy nhất ở mức kiểm chứng sản phẩm là validation ngoài nhóm và benchmark sử dụng thực tế; nội dung này đã được ghi thành next step thay vì tự nhận đã hoàn thành.
+
+---
+
+*Group Report — Day 02 Lab v2*
