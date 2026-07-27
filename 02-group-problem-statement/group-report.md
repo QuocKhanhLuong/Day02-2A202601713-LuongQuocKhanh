@@ -6,7 +6,7 @@
 
 **Quyết định:** Go với pilot nhỏ; Not Yet đối với Agent tự trị và tích hợp toàn bộ nền tảng
 
-> Bản này là group asset dùng chung của nhóm. Baseline hiện tại chủ yếu đến từ self-report và ước tính ban đầu; nhóm không coi các con số này là kết quả đã được kiểm chứng cho đến khi hoàn thành time-log và pilot.
+> Bản này là group asset dùng chung của nhóm. Baseline thời gian hiện tại chủ yếu đến từ self-report và ước tính ban đầu; nhóm không coi các con số này là kết quả đã được kiểm chứng cho đến khi hoàn thành time-log và pilot. Micro survey chỉ được sử dụng như tín hiệu validation ban đầu, không đại diện cho toàn bộ sinh viên.
 
 ## Thành viên nhóm
 
@@ -29,8 +29,6 @@
 | 15 | Nguyễn Hữu Nhật Minh | 2A202601551 | Workflow trước/sau và đánh giá khả thi kỹ thuật |
 
 ---
-
-# 02 — Group Problem Statement
 
 ## 1. Group convergence
 
@@ -65,7 +63,7 @@ Mỗi thành viên trong nhóm phân tích đưa ba Problem Cards vào vòng h�
 
 ### 1.4. Shortlist và score
 
-Thang điểm cho mỗi tiêu chí: 1–5. Điểm “Pain có evidence” phản ánh bằng chứng hiện có trong bốn repository, không coi ước lượng cá nhân là khảo sát diện rộng.
+Thang điểm cho mỗi tiêu chí: 1–5. Điểm “Pain có evidence” phản ánh bằng chứng hiện có trong bốn repository và micro survey, không coi ước lượng cá nhân là khảo sát diện rộng.
 
 | Candidate | Actor rõ | Workflow rõ | Pain có evidence | Impact đo được | Làm pilot nhỏ | So sánh R/W/A | Nhóm hiểu domain | Tổng |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -81,6 +79,7 @@ Vì sao chọn:
 - Hai thành viên độc lập ghi nhận trực tiếp cùng một pain trên các tập nền tảng khác nhau; một thành viên ghi nhận pain gần kề về daily và lịch họp.
 - Workflow lặp lại hằng ngày, bottleneck và điểm can thiệp cụ thể.
 - Có baseline ban đầu về thời gian và số lượt kiểm tra lại.
+- Micro survey cho thấy pain về đa nền tảng, bỏ sót thông tin và tìm lại context xuất hiện ở phần lớn mẫu khảo sát.
 - Có thể tách rõ phần Rule, phần AI và phần người dùng phải quyết định.
 - Có thể kiểm chứng bằng pilot read-only trước khi xin quyền ghi hoặc tích hợp sâu.
 
@@ -102,10 +101,30 @@ Nếu có disagreement, nhóm xử lý bằng cách ưu tiên candidate có acto
 |---|---:|---|---|---|
 | Bốn individual reports | 4 thành viên | 2/4 mô tả trực tiếp việc tổng hợp task/deadline đa nền tảng; 1/4 có pain gần kề về daily và lịch họp | Không phải tất cả thành viên đều gặp cùng mức độ pain | Actor của pilot là sinh viên/researcher tham gia nhiều khóa học hoặc dự án, không khái quát cho mọi sinh viên |
 | Hai Problem Cards trực tiếp | 2 workflows | Baseline ước tính 15–30 phút/ngày; 3–5 lượt kiểm tra/ngày; nguồn gồm LMS, Calendar, Slack/Discord, Notion, Gmail và GitHub | Các số liệu là self-estimate, chưa có time-log; “sót deadline” chưa ghi rõ trong cửa sổ thời gian nào | Ghi baseline là giả thuyết; bắt buộc đo lại trước pilot |
+| Micro survey | 20 phản hồi | 65% phải kiểm tra nhiều nền tảng; 65% dễ bỏ sót task/deadline; 80% khó tìm lại nội dung cũ; 60% khó xác định ưu tiên | Convenience sample, câu hỏi dạng checkbox, chưa đo tần suất và mức độ nghiêm trọng | Giữ survey như tín hiệu ban đầu; không suy rộng cho toàn bộ sinh viên; bổ sung time-log và interview ở bước sau |
 | Challenge trong bài của Quốc Khánh | 1 challenge chính | Pain nằm ở việc nối mẩu thông tin thành task có action, deadline và context | Có thể nguyên nhân chính là thiếu một quy trình cá nhân thống nhất, không phải thiếu AI | Pilot phải so sánh với No AI: một task manager và khung giờ review cố định |
 | Ghi chú metric trong bài của Mỹ Anh | Review chéo | Nhấn mạnh cần log thực nghiệm trước khi cam kết metric | Không được dùng ước lượng làm kết quả đã kiểm chứng | Thêm giai đoạn baseline 7 ngày, audit lỗi và assumption log |
 
-### 2.2. Insight sau validation
+### 2.2. Kết quả micro survey
+
+Nhóm thực hiện khảo sát nhanh với 20 người về các khó khăn khi theo dõi công việc và học tập trên nhiều nền tảng. Báo cáo chỉ sử dụng số liệu tổng hợp và không công khai danh tính người trả lời.
+
+| Nội dung khảo sát | Đồng ý | Tỷ lệ |
+|---|---:|---:|
+| Thường xuyên phải kiểm tra nhiều nền tảng để theo dõi công việc hoặc việc học | 13/20 | **65%** |
+| Dễ bỏ sót thông báo, nhiệm vụ hoặc deadline do thông tin phân tán | 13/20 | **65%** |
+| Mất nhiều thời gian tìm lại nội dung, quyết định hoặc tài liệu đã trao đổi | 16/20 | **80%** |
+| Phải sao chép hoặc cập nhật cùng một thông tin trên nhiều nền tảng | 11/20 | **55%** |
+| Việc chuyển đổi giữa các nền tảng gây khó khăn khi xác định ưu tiên tiếp theo | 12/20 | **60%** |
+
+Tổng hợp theo người trả lời:
+
+- **18/20 người (90%)** gặp ít nhất một trong năm vấn đề.
+- **13/20 người (65%)** đồng ý với ít nhất ba vấn đề.
+- **8/20 người (40%)** đồng ý với toàn bộ năm vấn đề.
+- Trung bình mỗi người chọn **3,25/5 pain points**.
+
+### 2.3. Insight sau validation
 
 ```text
 Pain cốt lõi không phải “thiếu một chatbot quản lý lịch”.
@@ -113,11 +132,26 @@ Pain là việc người dùng phải biến các mẩu thông tin phân tán th
 có hành động, deadline, ngữ cảnh và nguồn gốc rõ ràng.
 ```
 
+Các insight chính:
+
+1. **Pain về context mạnh hơn pain về copy dữ liệu.** Khó tìm lại nội dung, quyết định hoặc tài liệu cũ đạt tỷ lệ cao nhất, 80%. Vì vậy candidate task cần giữ `source link`, `context summary` và raw message để người dùng đối chiếu.
+2. **Đa nền tảng và bỏ sót deadline đều đạt 65%.** Hai tín hiệu này xác nhận trực tiếp candidate problem mà nhóm đã chọn.
+3. **Khó xác định ưu tiên đạt 60%, nhưng survey chưa chứng minh người dùng muốn AI tự quyết định priority.** MVP chỉ nên đưa ra gợi ý; quyền sắp xếp cuối cùng thuộc người dùng.
+4. **Sao chép/cập nhật thông tin đạt 55%, thấp nhất trong năm câu.** Đồng bộ hai chiều trên mọi nền tảng là extension, không phải bottleneck chính của MVP.
+
+Sau survey, nhóm thu hẹp problem từ:
+
+> “Gom task từ mọi nền tảng vào một nơi.”
+
+thành:
+
+> “Hỗ trợ người dùng phát hiện và chuẩn hóa task/deadline từ các nguồn phân tán thành candidate task có action, deadline, context và source link để review trong một nơi duy nhất.”
+
 Trạng thái bằng chứng:
 
-- **Đã có:** hai trải nghiệm trực tiếp độc lập, một trải nghiệm gần kề, workflow cụ thể và baseline ước tính.
-- **Chưa có:** time-log đủ dài, precision/recall của việc trích xuất deadline và số lần trễ hạn trong một cửa sổ đo cố định.
-- **Hành động tiếp theo:** đo baseline 7 ngày trước khi coi metric hiện tại là số liệu chính thức; sau đó chạy pilot 14 ngày.
+- **Đã có:** hai trải nghiệm trực tiếp độc lập, một trải nghiệm gần kề, workflow cụ thể và micro survey 20 người.
+- **Chưa có:** time-log đủ dài, mức độ nghiêm trọng theo tần suất, precision/recall của việc trích xuất deadline và số lần trễ hạn trong một cửa sổ đo cố định.
+- **Hành động tiếp theo:** đo baseline 7 ngày, phỏng vấn sâu 5–10 người và sau đó chạy pilot 14 ngày.
 
 ---
 
@@ -151,8 +185,8 @@ source link và confidence; người dùng vẫn phải xác nhận trước m�
 
 - **Đủ yêu cầu lab:** Có hơn 3 existing solutions/patterns, nhiều hơn 2 nguồn tham khảo và phần phân tích bước nào đã/chưa được giải quyết.
 - **Đã có cả component và competitor:** Google/Slack/Notion/Zapier/GitHub đại diện cho hạ tầng; Todoist và Akiflow là sản phẩm cạnh tranh trực tiếp.
-- **Chưa đủ để claim novelty hoặc product-market fit:** Chưa có interview ngoài nhóm, chưa test tool thật và chưa so sánh định lượng với Todoist/Akiflow.
-- **Hành động cần thêm:** chạy baseline No-AI, thử ít nhất một competitor và phỏng vấn 5–10 sinh viên ngoài nhóm trước khi mở rộng thành sản phẩm.
+- **Chưa đủ để claim novelty hoặc product-market fit:** Chưa test tool thật, chưa phỏng vấn sâu và chưa so sánh định lượng với Todoist/Akiflow.
+- **Hành động cần thêm:** chạy baseline No-AI, thử ít nhất một competitor và phỏng vấn 5–10 sinh viên trước khi mở rộng thành sản phẩm.
 
 ---
 
@@ -259,7 +293,7 @@ Người dùng review candidate tasks.
 | **Actor** | Sinh viên/researcher tham gia đồng thời nhiều lớp học và dự án, phải theo dõi task/deadline trên nhiều nền tảng. |
 | **Workflow** | Mỗi ngày người dùng mở LMS/Gmail, Calendar, Slack/Discord, GitHub/Notion; đọc thông báo; nối ngữ cảnh; ghi lại task và tự ưu tiên. |
 | **Bottleneck** | Việc phát hiện thông báo quan trọng và chuyển các mẩu thông tin thành task có action, deadline, context và nguồn gốc rõ ràng. |
-| **Impact** | Baseline ước tính 15–30 phút/ngày, 3–5 lượt kiểm tra lại và có nguy cơ bỏ sót deadline; số liệu cần đo lại bằng log. |
+| **Impact** | Baseline ước tính 15–30 phút/ngày, 3–5 lượt kiểm tra lại và có nguy cơ bỏ sót deadline; micro survey cho thấy 65% mẫu gặp pain đa nền tảng hoặc bỏ sót task/deadline, nhưng số liệu thời gian vẫn cần đo lại bằng log. |
 | **Success Metric** | Giảm thời gian xuống ≤8 phút/ngày, ≤1 lượt review tổng hợp, 100% task có source link, không có write action chưa được duyệt. |
 | **Boundary** | Không đọc nguồn chưa được cấp quyền; không tự gửi email/tin nhắn; không xác nhận lịch; không đổi deadline; không tạo, sửa hoặc xóa task chính thức trước khi người dùng approve. |
 
@@ -309,8 +343,8 @@ Rule có thể giải tốt phần Calendar/GitHub/Notion có schema và reminde
 |---|---|
 | **Actor** | Sinh viên/researcher đang tham gia nhiều lớp học hoặc dự án và theo dõi task/deadline qua Calendar cùng các kênh thông báo. |
 | **Workflow** | Mở từng nền tảng → tìm thông báo có hành động → nối context → suy ra deadline → nhập task → kiểm tra lại trong ngày. |
-| **Bottleneck** | Chuyển thông báo phân tán, đặc biệt là text phi cấu trúc, thành một candidate task có action, deadline và source link đáng tin cậy. |
-| **Impact** | Baseline giả thuyết 15–30 phút/ngày và 3–5 lượt kiểm tra lại; có nguy cơ bỏ sót hoặc xử lý muộn. Baseline chính thức sẽ được đo trong 7 ngày. |
+| **Bottleneck** | Chuyển thông báo phân tán, đặc biệt là text phi cấu trúc, thành một candidate task có action, deadline, context và source link đáng tin cậy. |
+| **Impact** | Baseline giả thuyết 15–30 phút/ngày và 3–5 lượt kiểm tra lại; có nguy cơ bỏ sót hoặc xử lý muộn. Micro survey 20 người ghi nhận 65% phải kiểm tra nhiều nền tảng, 65% dễ bỏ sót task/deadline và 80% khó tìm lại context cũ. Baseline thời gian chính thức sẽ được đo trong 7 ngày. |
 | **Success Metric** | ≤8 phút/ngày; ≤1 lượt review tổng hợp; 100% task có source link; precision ≥90%; recall ≥95%; 0 write action chưa duyệt. |
 | **Boundary** | Pilot chỉ dùng Calendar và một nguồn thông báo được chọn; read-only mặc định; dữ liệu ngoài scope không được đọc; item mơ hồ phải gắn `chưa xác định`; người dùng approve trước khi ghi. |
 | **AI intervention point** | Sau bước Rule lọc candidate message và trước bước người dùng review. |
@@ -319,7 +353,7 @@ Rule có thể giải tốt phần Calendar/GitHub/Notion có schema và reminde
 
 ### Problem Statement một câu
 
-> Sinh viên/researcher tham gia nhiều lớp học và dự án đang mất ước tính 15–30 phút mỗi ngày để mở nhiều nền tảng và tự chuyển các thông báo rời rạc thành task có action, deadline và ngữ cảnh; nhóm đề xuất một Workflow read-only dùng Rule để lọc/đồng bộ, AI để tạo candidate task và bắt buộc người dùng xác nhận trước khi ghi, với mục tiêu giảm thời gian xuống ≤8 phút/ngày mà không có hành động chưa được phê duyệt.
+> Sinh viên/researcher tham gia nhiều lớp học và dự án đang mất ước tính 15–30 phút mỗi ngày để mở nhiều nền tảng và tự chuyển các thông báo rời rạc thành task có action, deadline và ngữ cảnh; micro survey 20 người cho thấy 65% phải kiểm tra nhiều nền tảng và 65% dễ bỏ sót task/deadline. Nhóm đề xuất một Workflow read-only dùng Rule để lọc/đồng bộ, AI để tạo candidate task và bắt buộc người dùng xác nhận trước khi ghi, với mục tiêu giảm thời gian xuống ≤8 phút/ngày mà không có hành động chưa được phê duyệt.
 
 ---
 
@@ -336,8 +370,8 @@ Not Yet với Agent tự trị hoặc tích hợp toàn bộ nền tảng.
 
 | Câu hỏi | Yes / Not Yet / No | Ghi chú |
 |---|---|---|
-| Actor và workflow đã rõ chưa? | Yes | Nhóm có trải nghiệm trực tiếp và workflow hằng ngày vẽ được |
-| Baseline và success metric đã đo được chưa? | Not Yet | Có baseline ước tính nhưng cần time-log và labeled sample |
+| Actor và workflow đã rõ chưa? | Yes | Nhóm có trải nghiệm trực tiếp, micro survey và workflow hằng ngày vẽ được |
+| Baseline và success metric đã đo được chưa? | Not Yet | Survey xác nhận pain nhưng baseline thời gian vẫn cần time-log và labeled sample |
 | Có data/input đủ dùng chưa? | Yes cho pilot nhỏ | Calendar và message người dùng chủ động chọn/forward là đủ để thử |
 | Nếu AI sai, hậu quả có chấp nhận được không? | Yes với boundary | Candidate chỉ được Edit/Dismiss; hệ thống không tự ghi |
 | Có người review/owner vận hành không? | Yes | Mỗi learner review inbox của mình; nhóm audit pilot |
@@ -352,6 +386,7 @@ Not Yet với Agent tự trị hoặc tích hợp toàn bộ nền tảng.
 - **Ground truth:** cuối mỗi ngày, mỗi người tự lập danh sách task/deadline thực tế và đối chiếu với output.
 - **Đối chứng No AI:** task manager duy nhất + khung giờ review cố định + rule/filter đơn giản.
 - **Output cần đo:** thời gian, số lượt mở nguồn, precision, recall, source-link coverage, số item phải sửa và số write action chưa duyệt.
+- **Validation định tính bổ sung:** phỏng vấn 5–10 người trong mẫu survey để hiểu tình huống bỏ sót, cách workaround và mức độ nghiêm trọng.
 
 ### 8.3. Go / No-Go gate sau pilot
 
@@ -379,7 +414,8 @@ Dừng hoặc rollback về read-only nếu:
 ### 8.4. Decision rationale
 
 - Problem có workflow, actor, bottleneck và metric đủ cụ thể để kiểm chứng.
-- Hai thành viên độc lập gặp pain trực tiếp và một thành viên có pain gần kề, nhưng nhóm không biến ước lượng thành số liệu đã được xác nhận.
+- Hai thành viên độc lập gặp pain trực tiếp, một thành viên có pain gần kề và micro survey cung cấp tín hiệu từ 20 người.
+- Survey xác nhận pain nhưng không thay thế time-log, interview hoặc pilot thực tế.
 - Phương án No AI và Rule được giữ làm baseline, không mặc định AI là đáp án.
 - AI nằm ở một bước cần xử lý ngôn ngữ phi cấu trúc; mọi hành động có hậu quả đều thuộc human boundary.
 - Scope pilot nhỏ, read-only trước, có exit criteria và rollback rõ.
@@ -390,11 +426,14 @@ Dừng hoặc rollback về read-only nếu:
 
 | Claim | Trạng thái | Cần làm để xác nhận |
 |---|---|---|
+| 65% mẫu phải kiểm tra nhiều nền tảng | Đã ghi nhận trong micro survey 20 người | Lặp lại trên mẫu lớn và đa dạng hơn nếu cần claim rộng |
+| 65% mẫu dễ bỏ sót task/deadline | Đã ghi nhận trong micro survey 20 người | Interview để xác định tần suất và hậu quả cụ thể |
+| 80% mẫu khó tìm lại context/tài liệu cũ | Đã ghi nhận trong micro survey 20 người | Quan sát workflow và đo thời gian tìm lại trong pilot |
 | Người dùng mất 15–30 phút/ngày | Ước lượng từ hai bài cá nhân | Time-log 7 ngày |
 | Người dùng mở lại nền tảng 3–5 lần/ngày | Ước lượng cá nhân | Tally số lượt mở nguồn trong 7 ngày |
-| Có nguy cơ/sự cố bỏ sót deadline | Anecdotal, chưa có cửa sổ đo thống nhất | Ghi số incident trong baseline và pilot |
+| Có nguy cơ/sự cố bỏ sót deadline | Survey xác nhận perception; chưa có incident log | Ghi số incident trong baseline và pilot |
 | Rule không đủ cho text mơ hồ | Giả thuyết kỹ thuật | So sánh Rule-only với Rule + AI trên cùng tập message |
-| Centralized view giúp giảm cognitive load | Giả thuyết người dùng | Survey ngắn cuối pilot và so sánh thời gian |
+| Centralized view giúp giảm cognitive load | Survey cho thấy 60% khó xác định ưu tiên; causal impact chưa xác nhận | Survey ngắn cuối pilot và so sánh thời gian |
 | Hai nguồn đủ tạo giá trị ban đầu | Giả thuyết scope | Đo coverage; chỉ thêm nguồn thứ ba nếu coverage thiếu có ý nghĩa |
 | Ý tưởng tạo giá trị khác biệt với Todoist/Akiflow | Chưa xác nhận | Cho người dùng thử ít nhất một competitor và so sánh capture, provenance, review effort |
 
@@ -413,12 +452,13 @@ Dừng hoặc rollback về read-only nếu:
 ### Phase 4 — Validation và research
 
 - [x] Có quick validation từ bốn individual reports và review chéo.
+- [x] Có micro survey 20 người và số liệu tổng hợp.
 - [x] Có tín hiệu xác nhận, tín hiệu phản bác và cách nhóm thu hẹp problem.
 - [x] Có ít nhất 3 existing solutions/patterns.
 - [x] Có hyperlink tới nguồn chính thức.
 - [x] Có phân tích họ giải quyết bước nào, khoảng trống và bài học cho nhóm.
 - [x] Có research takeaway.
-- [ ] Chưa có interview/survey ngoài nhóm — không phải phần thiếu bắt buộc để hoàn thành file, nhưng cần làm trước khi claim product-market fit.
+- [ ] Chưa có interview sâu hoặc observation thực tế — cần làm trước khi claim product-market fit.
 
 ### Phase 5 — Workflow và Problem Statement
 
@@ -441,8 +481,8 @@ Dừng hoặc rollback về read-only nếu:
 
 ### Kết luận kiểm tra
 
-Bản group report đã đáp ứng đầy đủ các mục bắt buộc Phase 3–6 trong worksheet. Research đủ cho yêu cầu lab và đã bao phủ cả giải pháp hạ tầng lẫn competitor trực tiếp. Phần còn thiếu duy nhất ở mức kiểm chứng sản phẩm là validation ngoài nhóm và benchmark sử dụng thực tế; nội dung này đã được ghi thành next step thay vì tự nhận đã hoàn thành.
+Bản group report đã đáp ứng đầy đủ các mục bắt buộc Phase 3–6 trong worksheet. Research đủ cho yêu cầu lab, đã bao phủ cả giải pháp hạ tầng lẫn competitor trực tiếp, và micro survey 20 người đã bổ sung validation ngoài nhóm. Phần còn thiếu ở mức kiểm chứng sản phẩm là interview sâu, time-log và benchmark sử dụng thực tế; nội dung này được ghi thành next step thay vì tự nhận đã hoàn thành.
 
 ---
 
-*Group Report — Day 02 Lab v2*
+*Group Report — Day 02 Lab v3*
