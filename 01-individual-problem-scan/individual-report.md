@@ -244,7 +244,7 @@ AI summary sai
 
 ---
 
-### Problem Card 3 — Theo dõi task và deadline phân tán
+### Problem Card 3 — Theo dõi task và deadline đa nền tảng
 
 #### Problem một câu
 
@@ -345,17 +345,19 @@ Không chắc ngày giờ hoặc nội dung
 
 ## Card tôi muốn pitch nhất
 
-**Problem Card 1 — Sàng lọc paper nghiên cứu.**
+**Problem Card 3 — Theo dõi task và deadline đa nền tảng.**
 
 ### Vì sao tôi chọn
 
-Đây là vấn đề tôi trực tiếp gặp thường xuyên và hiểu rõ workflow hiện tại. Vấn đề không chỉ là “tìm paper”, mà là biến một số lượng lớn tài liệu thành shortlist có cấu trúc để hỗ trợ quyết định nghiên cứu.
+Đây là vấn đề tôi gặp hằng ngày khi phải theo dõi việc học, nghiên cứu và hoạt động nhóm qua Gmail, nhóm chat, Discord, GitHub và Google Calendar. Pain không chỉ nằm ở số lượng thông báo, mà ở việc tôi phải tự nối các mẩu thông tin rời rạc thành một task có hành động, deadline và ngữ cảnh rõ ràng.
 
-Pain có thể đo bằng thời gian sàng lọc, số paper phải mở, số paper được giữ lại và khả năng truy vết thông tin về từng paper. Ranh giới người–máy cũng rõ: AI hỗ trợ tìm, phân nhóm và trích xuất; researcher chịu trách nhiệm đọc nguồn, xác nhận citation và kết luận novelty.
+Vấn đề có baseline dễ quan sát: tôi đang mất khoảng 20–30 phút và kiểm tra lại các nền tảng khoảng 3–5 lần mỗi ngày. Giải pháp cũng có thể mở rộng cho sinh viên hoặc người tham gia nhiều nhóm dự án, nhưng trước tiên vẫn được kiểm chứng trên workflow cá nhân của tôi.
+
+Ranh giới người–máy tương đối rõ: AI có thể phát hiện và tóm tắt task từ các nguồn được cấp quyền, nhưng tôi phải xác nhận trước khi task hoặc calendar event được tạo. Hệ thống không được tự gửi email, xác nhận lịch hoặc thay đổi deadline.
 
 ### Câu hỏi tôi muốn nhóm challenge
 
-> Pain lớn nhất thực sự nằm ở việc tìm paper, đọc paper hay quản lý lại kiến thức sau khi đã đọc? Nếu chỉ dùng Zotero, tagging và template ghi chú thì đã giải quyết đủ vấn đề chưa, hay AI thực sự tạo thêm giá trị ở bước sàng lọc và so sánh?
+> Vấn đề cốt lõi là thông tin bị phân tán trên nhiều nền tảng hay do tôi chưa có một quy trình quản lý công việc thống nhất? Nếu chỉ dùng Google Calendar, một task manager và các rule thông báo thì đã giải quyết đủ chưa? Nguồn dữ liệu nào nên được tích hợp trước để tạo giá trị mà vẫn bảo đảm quyền riêng tư?
 
 ### Trạng thái pitch/challenge
 
